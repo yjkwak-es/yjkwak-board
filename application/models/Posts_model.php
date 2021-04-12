@@ -3,36 +3,33 @@
 class Posts_model extends CI_Model
 {
 
-    public function findPosts() : array
+    public function findPosts(): array
     {
-        return [];
+        $query = $this->db->order_by('CreatedDate','DESC')
+        ->get('board');
+        return $query->result_array();
     }
 
     public function getPostById($TID)
     {
-        return $query->row_array();
-    }
-
-    public function get_posts($TID = FALSE)
-    {
-        if ($TID === FALSE) {
-            $query = $this->db->get('board');
-            return $query->result_array();
-        }
-
         $query = $this->db->get_where('board', array('TID' => $TID));
         return $query->row_array();
     }
 
-    public function create_posts()
+    public function createPost()
     {
-        $data = array (
+        $data = array(
             'ID' => $this->input->post('ID'),
             'Title' => $this->input->post('title'),
             'Paragraph' => $this->input->post('text'),
             'FileID' => null
         );
 
-        return $this->db->insert('board',$data);
+        return $this->db->insert('board', $data);
+    }
+
+    public function deletePost(int $TID)
+    {
+        return $this->db->delete('board',array('TID' => $TID));
     }
 }

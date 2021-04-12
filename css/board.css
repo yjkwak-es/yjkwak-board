@@ -1,0 +1,57 @@
+table {
+    width : 60%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+textarea {
+    resize: none;
+}
+
+table,td,th {
+    border-collapse: collapse;
+    border : 1px solid black;
+}
+
+div {
+    text-align: center;
+}
+
+.Posts {
+    padding-top : 80px;
+}
+
+.PostHead {
+    width : 60%;
+    margin-top : 80px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.PostBody {
+    width : 60%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+.Search {
+    width : 60%;
+    margin-top : 15px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align : right;
+}
+
+.Modify {
+    width : 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+    text-align : right;
+}
+
+.Modify button {
+    display : inline;
+}

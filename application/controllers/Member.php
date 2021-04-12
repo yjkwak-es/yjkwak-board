@@ -6,6 +6,7 @@ class Member extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Member_model');
+        $this->allow = array('login','logout');
     }
 
     public function login()
@@ -29,7 +30,7 @@ class Member extends CI_Controller
                 show_404();
             }
 
-            $this->session->set_userdata('UserData','ID');
+            $this->session->set_userdata('UserData', $this->input->post('ID'));
             redirect('/posts');
         }
     }
@@ -37,13 +38,7 @@ class Member extends CI_Controller
     public function logout() 
     {
         $this->session->sess_destroy();
-        $l = 'logouted!';
-        alert($l, '/member');
-    }
-
-    public function testred()
-    {
-        // redirect('/member?name=123');
-        alert('test', '/member');
+        
+        alert('logouted', '/member');
     }
 }

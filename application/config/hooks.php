@@ -12,9 +12,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-// $hook['post_controller_constroctor'] = array(
-//     'class' => 'User_check',
-//     'function' => 'checkID',
-//     'filename' => 'User_check.php',
-//     'filepath' => 'hooks'
-// );
+$hook['post_controller_constructor'] = array(
+    'class' => 'User_check',
+    'function' => 'checkID',
+    'filename' => 'User_check.php',
+    'filepath' => 'hooks'
+);
