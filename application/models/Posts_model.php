@@ -2,12 +2,32 @@
 
 class Posts_model extends CI_Model
 {
-
-    public function findPosts(): array
+    public function findPosts(int $start, int $offset, string $keyword = '',string $type = ''): array
     {
-        $query = $this->db->order_by('CreatedDate','DESC')
-        ->get('board');
-        return $query->result_array();
+        $this->db->select()->from('board');
+        switch ($type) {
+            case 'all':
+                $this->db
+                ->or_like('Title',$keyword,'both')
+                ->or_like('Paragraph',$keyword,'both');
+                break;
+            case 'Paragraph':
+                $this->db
+                ->like('Paragraph',$keyword,'both');
+                break;
+            case 'Title':
+                $this->db
+                ->like('Title',$keyword,'both');
+                break;
+        }
+        $this->db->order_by('CreatedDate','DESC');
+        $cnt = $this->db->count_all_results('',false);
+        $query = $this->db->limit($offset,$start)->get();
+        
+        return [
+            'result' => $query->result_array(),
+            'totalCount' => $cnt
+        ];
     }
 
     public function getPostById($TID)

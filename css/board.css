@@ -18,8 +18,20 @@ div {
     text-align: center;
 }
 
+a:link {
+    color : blue;
+}
+a:visited {
+    color : blue;
+}
+
+.page a{
+    font-size: 20px;
+}
+
 .Posts {
     padding-top : 80px;
+    margin: 5px;
 }
 
 .PostHead {

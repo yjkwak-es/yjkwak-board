@@ -24,13 +24,15 @@ class Member extends CI_Controller
             $this->load->view('templates/footer');
         }
         else {
-            $data['member_item'] = $this->Member_model->get_member();
+            $ID = $this->input->post('ID');
+            $PW = $this->input->post('PW');
+            $data['member_item'] = $this->Member_model->get_member($ID);
 
-            if (empty($data['member_item']) || ($data['member_item']['PW'] !== $this->input->post('PW'))) {
+            if (empty($data['member_item']) || ($data['member_item']['PW'] !== $PW)) {
                 show_404();
             }
 
-            $this->session->set_userdata('UserData', $this->input->post('ID'));
+            $this->session->set_userdata('UserData', $ID);
             redirect('/posts');
         }
     }

@@ -8,9 +8,8 @@ class Member_model extends CI_Model
         $this->load->database();
     }
 
-    public function get_member()
+    public function get_member(string $id)
     {
-        $id = $this->input->post('ID');
         $query = $this->db->get_where('test_db', array('ID' => $id));
         return $query->row_array();
     }
