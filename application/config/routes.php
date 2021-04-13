@@ -56,6 +56,7 @@ $route['member'] = 'member/login';
 $route['member/logout'] = 'member/logout';
 
 $route['posts/create'] = 'posts/create';
+$route['posts/create/(:any)'] = 'posts/create/$1';
 $route['posts/delete'] = 'posts/delete';
 $route['posts/(:any)'] = 'posts/view/$1';
 $route['posts'] = 'posts';

@@ -10,6 +10,7 @@ class Posts extends CI_Controller
         parent::__construct();
         $this->load->model('Posts_model');
         $this->load->model('Reply_model');
+        $this->load->helper('view');
         $this->allow = array();
     }
 
@@ -96,7 +97,7 @@ class Posts extends CI_Controller
     /**
      * 게시글 게제
      */
-    public function create()
+    public function create($TID = null)
     {
         $this->load->library('form_validation');
 
@@ -111,8 +112,11 @@ class Posts extends CI_Controller
                 'Title' => '',
                 'Paragraph' => '',
             );
-            if ($this->input->post('TID')) {
-                $data['posts_item'] = $this->posts_model->getPostById($this->input->post('TID'));
+            if ($TID) {
+                $data['posts_item'] = $this->Posts_model->getPostById($TID);
+                if ($data['posts_item']['ID'] !== $this->session->userdata('UserData')) {
+                    redirect('posts/create');
+                }
             }
 
             $this->load->view('templates/header', $data);
@@ -120,13 +124,19 @@ class Posts extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $data = array(
-                'ID' => $this->input->post('ID'),
+                'ID' => $this->session->userdata('UserData'),
                 'Title' => $this->input->post('title'),
                 'Paragraph' => $this->input->post('text'),
                 'FileID' => null
             );
-            $this->Posts_model->createPost();
-            $this->load->view('posts/success');
+
+            if ($this->input->post('TID')) {
+                $this->Posts_model->setPost($this->input->post('TID'), $data);
+                alert('The post updated!', site_url(array('posts', $this->input->post('TID'))));
+            } else {
+                $this->Posts_model->createPost($data);
+                alert('The post created!', site_url('posts'));
+            }
         }
     }
 
@@ -135,24 +145,22 @@ class Posts extends CI_Controller
      */
     public function delete()
     {
-        $this->load->helper('view');
         $TID = $this->input->post('TID');
         $post = $this->Posts_model->getPostById($TID);
-        
-        if(empty($TID) || ($this->session->userdata('UserData') !== $post['ID'])) {
+
+        if (empty($TID) || ($this->session->userdata('UserData') !== $post['ID'])) {
             redirect('posts');
         }
 
         $cnt = ($this->Reply_model->getAllReplys($TID))['totalCount'];
-        if($cnt != 0) {
+        if ($cnt != 0) {
             $this->Reply_model->deleteReplyAll($TID);
         }
 
-        if($this->Posts_model->deletePost($TID)) {
-            alert('delted!','posts');
-        }
-        else {
-            alert('error in server!','posts/'.$TID);
+        if ($this->Posts_model->deletePost($TID)) {
+            alert('delted!', site_url('posts'));
+        } else {
+            alert('error in server!', site_url(array('posts', $TID)));
         }
     }
 }

@@ -1,7 +1,7 @@
 <? if ($posts_item['ID'] === $this->session->userdata('UserData')) : ?>
     <div class="Modify">
-        <button onclick="">수정</button>
-        <?= form_open('posts/delete') ?>
+        <button onclick="document.location='<?=site_url(array('posts','create',$posts_item['TID']))?>'">수정</button>
+        <?= form_open('posts/delete','style="display:inline"') ?>
         <?= form_hidden('TID', $posts_item['TID']) ?>
         <button onclick='submit'>삭제</button>
         <?= form_close() ?>

@@ -45,4 +45,10 @@ class Posts_model extends CI_Model
     {
         return $this->db->delete('board',array('TID' => $TID));
     }
+
+    public function setPost(int $TID, array $data)
+    {
+        $this->db->where('TID',$TID);
+        return $this->db->update('board',$data);
+    }
 }

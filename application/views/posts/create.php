@@ -1,7 +1,7 @@
 <?= validation_errors(); ?>
 
 <?= form_open('posts/create') ?>
-<input type="hidden" name="ID" value="<?= $_SESSION['UserData'] ?>" />
+<input type="hidden" name="TID" value="<?= $posts_item['TID'] ?>" />
 
 <div class="createPost">
     <div style="width:100%">
