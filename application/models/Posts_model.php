@@ -36,15 +36,8 @@ class Posts_model extends CI_Model
         return $query->row_array();
     }
 
-    public function createPost()
+    public function createPost(array $data)
     {
-        $data = array(
-            'ID' => $this->input->post('ID'),
-            'Title' => $this->input->post('title'),
-            'Paragraph' => $this->input->post('text'),
-            'FileID' => null
-        );
-
         return $this->db->insert('board', $data);
     }
 

@@ -26,6 +26,7 @@ a:visited {
 }
 
 .page a{
+    margin : 5px;
     font-size: 20px;
 }
 
@@ -36,16 +37,52 @@ a:visited {
 
 .PostHead {
     width : 60%;
-    margin-top : 80px;
+    margin-top : 20px;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 20px;
+    border : 1px solid black;
+}
+
+.PostHead span {
+    margin-right : 100px;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .PostBody {
     width : 60%;
+    height: 700px;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 10px;
     text-align: left;
+    overflow: auto;
+    word-break: break-all;
+    word-wrap: break-word;
+    border : 1px solid black;
+}
+
+.CreatePost {
+    width : 60%;
+    height: 700px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.CreatePost input {
+    width : 85%;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.CreatePost textarea {
+    width : 100%;
+    height: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .Search {
@@ -60,10 +97,24 @@ a:visited {
     width : 60%;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 15px;
     text-align : right;
 }
 
 .Modify button {
     display : inline;
+}
+
+.Replies {
+    margin-bottom: 10px;
+}
+
+.Write_reply {
+    width : 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
+
+.Write_reply textarea{
+    width : 100%;
 }
