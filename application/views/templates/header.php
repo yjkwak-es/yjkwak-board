@@ -10,5 +10,5 @@
     <h1 style="text-align : center"><?php echo $title ?></h1>
     
     <div class=Search>
-        <span>접속자 : <?= $this->session->userdata('UserData') ?></span> <a href="member/logout">logout</a>
+        <span>접속자 : <?= $this->session->userdata('UserData') ?></span> <a href="<?=site_url(array('member','logout'))?>">logout</a>
     </div>

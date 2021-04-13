@@ -4,14 +4,13 @@ class Reply extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->load->helper('view');
         $this->load->model('Reply_model');
         $this->allow = array();
     }
 
     public function create() 
     {
-        $this->load->helper('view');
-
         $TID = $this->input->post('TID');
         $Paragraph = $this->input->post('replyText');
         
@@ -27,5 +26,22 @@ class Reply extends CI_Controller {
 
         $this->Reply_model->createReply($data);
         alert('apply it!',site_url(array('posts',$TID)));
+    }
+
+    public function delete()
+    {
+        $RID = $this->input->post('RID');
+
+        if(empty($RID)) {
+            redirect(site_url('posts'));
+        }
+
+        $this->Reply_model->deleteReplyByID($RID);
+        alert('deleted!');
+    }
+
+    public function set()
+    {
+        
     }
 }

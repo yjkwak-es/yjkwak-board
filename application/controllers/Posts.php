@@ -80,7 +80,7 @@ class Posts extends CI_Controller
         $data['posts_item'] = $this->Posts_model->getPostById($TID);
         $tempRow = $this->Reply_model->getAllReplys($TID);
 
-        $data['replys'] = $tempRow['result'];
+        $data['replies'] = $tempRow['result'];
         $data['replyCnt'] = $tempRow['totalCount'];
 
         if (empty($data['posts_item'])) {
@@ -106,23 +106,26 @@ class Posts extends CI_Controller
         $this->form_validation->set_rules('title', 'title', 'required');
         $this->form_validation->set_rules('text', 'text', 'required');
 
-        if ($this->form_validation->run() === FALSE) {
+        if ($this->form_validation->run() === FALSE) :
             $data['posts_item'] = array(
                 'TID' => '',
                 'Title' => '',
                 'Paragraph' => '',
             );
-            if ($TID) {
-                $data['posts_item'] = $this->Posts_model->getPostById($TID);
-                if ($data['posts_item']['ID'] !== $this->session->userdata('UserData')) {
-                    redirect('posts/create');
-                }
-            }
 
+            if ($TID) :
+                $data['posts_item'] = $this->Posts_model->getPostById($TID);
+
+                if ($data['posts_item']['ID'] !== $this->session->userdata('UserData')) :
+                    redirect('posts/create');
+                endif;
+            endif;
+
+            //View 수정 및 새글 쓰기 창
             $this->load->view('templates/header', $data);
             $this->load->view('posts/create');
             $this->load->view('templates/footer');
-        } else {
+        else :
             $data = array(
                 'ID' => $this->session->userdata('UserData'),
                 'Title' => $this->input->post('title'),
@@ -130,14 +133,15 @@ class Posts extends CI_Controller
                 'FileID' => null
             );
 
-            if ($this->input->post('TID')) {
+            if ($this->input->post('TID')) :
                 $this->Posts_model->setPost($this->input->post('TID'), $data);
-                alert('The post updated!', site_url(array('posts', $this->input->post('TID'))));
-            } else {
+                $updatedUrl = array('posts', $this->input->post('TID'));
+                alert('The post updated!', site_url($updatedUrl));
+            else :
                 $this->Posts_model->createPost($data);
                 alert('The post created!', site_url('posts'));
-            }
-        }
+            endif;
+        endif;
     }
 
     /**
@@ -148,19 +152,19 @@ class Posts extends CI_Controller
         $TID = $this->input->post('TID');
         $post = $this->Posts_model->getPostById($TID);
 
-        if (empty($TID) || ($this->session->userdata('UserData') !== $post['ID'])) {
+        if (empty($TID) || ($this->session->userdata('UserData') !== $post['ID'])) :
             redirect('posts');
-        }
+        endif;
 
         $cnt = ($this->Reply_model->getAllReplys($TID))['totalCount'];
-        if ($cnt != 0) {
+        if ($cnt != 0) :
             $this->Reply_model->deleteReplyAll($TID);
-        }
+        endif;
 
-        if ($this->Posts_model->deletePost($TID)) {
+        if ($this->Posts_model->deletePost($TID)) :
             alert('delted!', site_url('posts'));
-        } else {
+        else :
             alert('error in server!', site_url(array('posts', $TID)));
-        }
+        endif;
     }
 }
