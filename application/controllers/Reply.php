@@ -1,17 +1,26 @@
 <?php
 
+use App\EReply;
+
 class Reply extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('view');
         $this->load->model('Reply_model');
         $this->allow = array();
     }
 
     public function create()
     {
+        /**
+         * PascalCase           # Class, Namespace, Trait, Interface ... => PSR-12
+         * camelCase            # variable, member field, Function Name => PSR-12
+         * snake_case (lower)   # Database Table Name
+         * SNAKE_CASE (UPPER)   # variable, member field, Table Column Name
+         * kebob-case           # html tag, attribute, url parameter
+         */
+        $data = new EReply();
         $TID = $this->input->post('TID');
         $Paragraph = $this->input->post('replyText');
 

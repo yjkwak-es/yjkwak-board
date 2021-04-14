@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @var Post[] $posts
+ * @var EPost[] $posts
  */
 
-use App\Post;
+use App\EPost;
 
 ?>
 <div class="Posts">
@@ -26,12 +26,12 @@ use App\Post;
         </thead>
 
         <tbody>
-            <? foreach ($posts as $posts_item) : ?>
+            <?foreach ($posts as $posts_item) : ?>
                 <tr>
                     <td><?= $postNum-- ?></td>
-                    <td style="text-align:left"><a href="posts/<?= $posts_item['TID'] ?>" ?><?= $posts_item['Title'] ?></a></td>
-                    <td><?= $posts_item['ID'] ?></td>
-                    <td><?= $posts_item['CreatedDate'] ?></td>
+                    <td style="text-align:left"><a href="posts/<?=$posts_item->TID?>" ?><?= $posts_item->Title ?></a></td>
+                    <td><?= $posts_item->ID ?></td>
+                    <td><?= $posts_item->CreatedDate ?></td>
                 </tr>
             <? endforeach; ?>
         </tbody>

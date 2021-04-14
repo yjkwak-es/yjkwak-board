@@ -1,4 +1,7 @@
 <?php
+
+use App\EPost;
+
 define("PAGESIZE", 3); //Number of Posts in 1 page
 define("PAGEDIV", 3); //Number of pages in 1 Division
 
@@ -86,8 +89,9 @@ class Posts extends CI_Controller
         if (empty($data['posts_item'])) {
             show_404();
         }
+        
 
-        $data['title'] = $data['posts_item']['Title'];
+        $data['title'] = $data['posts_item']->Title;
 
         $this->load->view('templates/header', $data);
         $this->load->view('posts/view', $data);
@@ -97,48 +101,37 @@ class Posts extends CI_Controller
     /**
      * 게시글 게제
      */
-    public function create($TID = null)
+    public function create()
     {
-        $this->load->library('form_validation');
-
         $data['title'] = 'Create Posts';
+        
+        $post = new EPost();
 
-        $this->form_validation->set_rules('title', 'title', 'required');
-        $this->form_validation->set_rules('text', 'text', 'required');
+        if (empty($this->input->post('title'))) :
+            if (!empty($this->input->post('TID'))) :
+                $post = $this->Posts_model->getPostById($this->input->post('TID'));
 
-        if ($this->form_validation->run() === FALSE) :
-            $data['posts_item'] = array(
-                'TID' => '',
-                'Title' => '',
-                'Paragraph' => '',
-            );
-
-            if ($TID) :
-                $data['posts_item'] = $this->Posts_model->getPostById($TID);
-
-                if ($data['posts_item']['ID'] !== $this->session->userdata('UserData')) :
+                if ($post->ID !== $this->session->getUserData()) :
                     redirect('posts/create');
                 endif;
             endif;
 
+            $data['posts_item'] = $post;
             //View 수정 및 새글 쓰기 창
             $this->load->view('templates/header', $data);
             $this->load->view('posts/create');
             $this->load->view('templates/footer');
         else :
-            $data = array(
-                'ID' => $this->session->userdata('UserData'),
-                'Title' => $this->input->post('title'),
-                'Paragraph' => $this->input->post('text'),
-                'FileID' => null
-            );
+            $newPost = new EPost;
+            $newPost->newPost($this->session->getUserData(),$this->input->post('title'),$this->input->post('text'));
 
             if ($this->input->post('TID')) :
-                $this->Posts_model->setPost($this->input->post('TID'), $data);
+                $this->Posts_model->setPost($this->input->post('TID'), $newPost);
+
                 $updatedUrl = array('posts', $this->input->post('TID'));
                 alert('The post updated!', site_url($updatedUrl));
             else :
-                $this->Posts_model->createPost($data);
+                $this->Posts_model->createPost($newPost);
                 alert('The post created!', site_url('posts'));
             endif;
         endif;
@@ -152,7 +145,7 @@ class Posts extends CI_Controller
         $TID = $this->input->post('TID');
         $post = $this->Posts_model->getPostById($TID);
 
-        if (empty($TID) || ($this->session->userdata('UserData') !== $post['ID'])) :
+        if (empty($TID) || ($this->session->userdata('UserData') !== $post->ID)) :
             redirect('posts');
         endif;
 
@@ -164,7 +157,7 @@ class Posts extends CI_Controller
         if ($this->Posts_model->deletePost($TID)) :
             alert('delted!', site_url('posts'));
         else :
-            alert('error in server!', site_url(array('posts', $TID)));
+            alert('error in server!', site_url(array('posts')));
         endif;
     }
 }

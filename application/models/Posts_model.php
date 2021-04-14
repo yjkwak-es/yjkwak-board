@@ -1,5 +1,7 @@
 <?php
 
+use App\EPost;
+
 class Posts_model extends CI_Model
 {
     public function findPosts(int $start, int $offset, string $keyword = '',string $type = ''): array
@@ -25,20 +27,21 @@ class Posts_model extends CI_Model
         $query = $this->db->limit($offset,$start)->get();
         
         return [
-            'result' => $query->result_array(),
+            'result' => $query->result(EPost::class),
             'totalCount' => $cnt
         ];
     }
 
-    public function getPostById($TID)
+    public function getPostById($TID) : EPost
     {
         $query = $this->db->get_where('board', array('TID' => $TID));
-        return $query->row_array();
+        $query->result();
+        return $query->row(0,EPost::class);
     }
 
-    public function createPost(array $data)
+    public function createPost(EPost $newPost) : bool
     {
-        return $this->db->insert('board', $data);
+        return $this->db->insert('board', $newPost);
     }
 
     public function deletePost(int $TID)
@@ -46,9 +49,9 @@ class Posts_model extends CI_Model
         return $this->db->delete('board',array('TID' => $TID));
     }
 
-    public function setPost(int $TID, array $data)
+    public function setPost(int $TID, EPost $newPost) : bool
     {
         $this->db->where('TID',$TID);
-        return $this->db->update('board',$data);
+        return $this->db->update('board',$newPost);
     }
 }

@@ -1,21 +1,33 @@
-<? if ($posts_item['ID'] === $this->session->userdata('UserData')) : ?>
+<?php
+
+/**
+ * 
+ * @var EPost $posts_item
+ * 
+ */
+
+use App\EPost;
+?>
+
+<? if ($posts_item->ID === $this->session->getUserData()) : ?>
     <div class="Modify">
-        <button onclick="document.location='<?= site_url(array('posts', 'create', $posts_item['TID'])) ?>'">수정</button>
+        
+
         <?= form_open('posts/delete', 'style="display:inline"') ?>
-        <?= form_hidden('TID', $posts_item['TID']) ?>
+        <?= form_hidden('TID', $posts_item->TID) ?>
         <button onclick='submit'>삭제</button>
         <?= form_close() ?>
     </div>
 <? endif ?>
 
 <div class="PostHead">
-    <span style="width : 20%">작성자 : <?= $posts_item['ID'] ?></span>
-    <span style="width : 58%"><?= $posts_item['Title'] ?></span>
-    <span style="width : 20%"><?= $posts_item['CreatedDate'] ?></span>
+    <span style="width : 20%">작성자 : <?= $posts_item->ID ?></span>
+    <span style="width : 58%"><?= $posts_item->Title ?></span>
+    <span style="width : 20%"><?= $posts_item->CreatedDate ?></span>
 </div>
 
 <div class="PostBody">
-    <?= $posts_item['Paragraph'] ?>
+    <?= $posts_item->Paragraph ?>
 </div>
 
 <div class='Replies'>
@@ -33,8 +45,8 @@
                     <td><?= $reply['CreatedDate'] ?>
                         <!-- 수정 및 삭제 버튼 -->
                         <? if ($reply['ID'] === $this->session->userdata('UserData')) : ?>
-                            <button class="updateBtn" id=<?=$reply['RID']?>>
-                            수정
+                            <button class="updateBtn" id=<?= $reply['RID'] ?>>
+                                수정
                             </button>
 
                             <?= form_open('reply/delete', 'style="display:inline"') ?>
@@ -51,7 +63,7 @@
 
 <div>
     <?= form_open('reply/create') ?>
-    <input type="hidden" name="TID" value=<?= $posts_item['TID'] ?>>
+    <input type="hidden" name="TID" value=<?= $posts_item->TID ?>>
 
     <div class="Write_reply">
         <textarea name="replyText"></textarea>
@@ -77,7 +89,7 @@
         var newForm = $('<form></form>');
 
         newForm.attr('method', 'post');
-        newForm.attr('action', '<?=site_url(array('reply','set'))?>');
+        newForm.attr('action', '<?= site_url(array('reply', 'set')) ?>');
 
         newForm.append($('<textarea>', {
             css: {

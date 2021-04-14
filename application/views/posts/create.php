@@ -1,16 +1,16 @@
 <?= validation_errors(); ?>
 
 <?= form_open('posts/create') ?>
-<input type="hidden" name="TID" value="<?= $posts_item['TID'] ?>" />
+<input type="hidden" name="TID" value="<?= $posts_item->TID ?>" />
 
 <div class="createPost">
     <div style="width:100%">
         <label for="title">Title</label>
-        <input type="input" name="title" value="<?= $posts_item['Title'] ?>" />
+        <input type="input" name="title" value="<?= $posts_item->Title ?>" />
     </div>
 
     <div style="width:100%">
-        <textarea name="text"><?= $posts_item['Paragraph'] ?></textarea><br />
+        <textarea name="text"><?= $posts_item->Paragraph ?></textarea><br />
     </div>
 </div>
 
@@ -18,3 +18,4 @@
     <input type="submit" name="submit" value="Create Posts" />
 </div>
 <?= form_close() ?>
+
