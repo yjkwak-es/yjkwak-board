@@ -22,7 +22,7 @@ class Member extends CI_Controller
             $this->load->view('member/login');
             $this->load->view('templates/footer');
         else :
-            $data['member_item'] = $this->Member_model->get_member($ID);
+            $data['member_item'] = $this->Member_model->getMemberByID($ID);
 
             if (empty($data['member_item']) || ($data['member_item']['PW'] !== $PW)) {
                 show_404();
@@ -37,5 +37,37 @@ class Member extends CI_Controller
     {
         $this->session->sess_destroy();
         alert('logouted', '/member');
+    }
+
+    public function setInfo()
+    {
+        $this->load->library('session');
+        $this->load->helper('view');
+        $name = $this->input->post('name');
+        
+        if(empty($name)) {
+            $data['member'] = array(
+                'name' => '',
+                'age' => '',
+                'gender' => ''
+            );
+
+            $data['member'] = $this->Member_model->getMemberByID($this->session->getUserData());
+            $this->load->view('member/userInfo',$data);
+        }
+        else {
+            $data = array(
+                'name' => $name,
+                'age' => $this->input->post('age'),
+                'gender' => $this->input->post('gender')
+            );
+    
+            $result = $this->Member_model->setMember($this->session->getUserData(),$data);
+            if($result) :
+                alert('Saved!');
+            else:
+                alert('Err');
+            endif;
+        }
     }
 }

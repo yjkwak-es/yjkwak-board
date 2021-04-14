@@ -24,6 +24,13 @@ class Reply_model extends CI_Model
         return $this->db->insert('Reply',$data);
     }
 
+    public function setReply(int $RID, string $paragraph)
+    {
+        $this->db->where('RID',$RID);
+        $this->db->set('Paragraph',$paragraph);
+        return $this->db->update('Reply');
+    }
+
     public function deleteReplyByID(int $RID)
     {
         return $this->db->delete('Reply',array('RID' => $RID));

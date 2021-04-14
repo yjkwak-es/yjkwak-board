@@ -107,13 +107,12 @@ a:visited {
 }
 
 .Replies {
-    width : 100%;
+    width : 60%;
     margin-bottom: 10px;
 }
 
-.Replies span {
-    display: inline-block;
-    border : 1px solid black;
+.Replies table {
+    width : 100%
 }
 
 .Write_reply {
