@@ -55,9 +55,9 @@ $route['translate_uri_dashes'] = FALSE;
 $route['member'] = 'member/login';
 $route['member/logout'] = 'member/logout';
 
-$route['posts/create'] = 'posts/create';
-$route['posts/create/(:any)'] = 'posts/create/$1';
-$route['posts/delete'] = 'posts/delete';
+$route['posts/create'] = 'file_posts/create';
+$route['posts/create/(:any)'] = 'file_posts/create/$1';
+$route['posts/delete'] = 'file_posts/delete';
 $route['posts/(:any)'] = 'posts/view/$1';
 $route['posts'] = 'posts';
 

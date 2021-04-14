@@ -11,14 +11,14 @@ class EPost
     public string $CreatedDate;
     public $FileID;
 
-    // public function __construct()
-    // {
-    //     $this->TID = 1;
-    //     $this->Title = '';
-    //     $this->Paragraph = '';
-    //     $this->CreatedDate = '';
-    //     $this->FileID = null;
-    // }
+    public function emptyPost()
+    {
+        $this->TID = 0;
+        $this->Title = '';
+        $this->Paragraph = '';
+        $this->CreatedDate = '';
+        $this->FileID = null;
+    }
 
     public function newPost(string $ID, string $Title, string $Paragraph, $FileID = null)
     {

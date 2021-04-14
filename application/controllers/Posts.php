@@ -89,7 +89,7 @@ class Posts extends CI_Controller
         if (empty($data['posts_item'])) {
             show_404();
         }
-        
+
 
         $data['title'] = $data['posts_item']->Title;
 
@@ -104,16 +104,19 @@ class Posts extends CI_Controller
     public function create($TID = null)
     {
         $data['title'] = 'Create Posts';
-        
-        $post = new EPost();
 
-        if (empty($this->input->post('title'))) :
+        $post = new EPost();
+        $title = $this->input->post('title');
+
+        if (empty($title)) :
             if ($TID) :
                 $post = $this->Posts_model->getPostById($TID);
 
                 if ($post->ID !== $this->session->getUserData()) :
                     redirect('posts/create');
                 endif;
+            else :
+                $post->emptyPost();
             endif;
 
             $data['posts_item'] = $post;
@@ -123,9 +126,9 @@ class Posts extends CI_Controller
             $this->load->view('templates/footer');
         else :
             $newPost = new EPost;
-            $newPost->newPost($this->session->getUserData(),$this->input->post('title'),$this->input->post('text'));
+            $newPost->newPost($this->session->getUserData(), $title, $this->input->post('text'));
 
-            if ($this->input->post('TID')) :
+            if ($this->input->post('TID') != 0) :
                 $this->Posts_model->setPost($this->input->post('TID'), $newPost);
 
                 $updatedUrl = array('posts', $this->input->post('TID'));
@@ -140,22 +143,15 @@ class Posts extends CI_Controller
     /**
      * 게시글 삭제
      */
-    public function delete()
+    protected function deletePosts($TID)
     {
-        $TID = $this->input->post('TID');
-        $post = $this->Posts_model->getPostById($TID);
-
-        if (empty($TID) || ($this->session->userdata('UserData') !== $post->ID)) :
-            redirect('posts');
-        endif;
-
         $cnt = ($this->Reply_model->getAllReplys($TID))['totalCount'];
         if ($cnt != 0) :
             $this->Reply_model->deleteReplyAll($TID);
         endif;
 
         if ($this->Posts_model->deletePost($TID)) :
-            alert('delted!', site_url('posts'));
+            alert('deleted!', site_url('posts'));
         else :
             alert('error in server!', site_url(array('posts')));
         endif;
