@@ -101,15 +101,15 @@ class Posts extends CI_Controller
     /**
      * 게시글 게제
      */
-    public function create()
+    public function create($TID = null)
     {
         $data['title'] = 'Create Posts';
         
         $post = new EPost();
 
         if (empty($this->input->post('title'))) :
-            if (!empty($this->input->post('TID'))) :
-                $post = $this->Posts_model->getPostById($this->input->post('TID'));
+            if ($TID) :
+                $post = $this->Posts_model->getPostById($TID);
 
                 if ($post->ID !== $this->session->getUserData()) :
                     redirect('posts/create');

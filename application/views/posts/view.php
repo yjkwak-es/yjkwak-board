@@ -11,7 +11,7 @@ use App\EPost;
 
 <? if ($posts_item->ID === $this->session->getUserData()) : ?>
     <div class="Modify">
-        
+        <button onclick="document.location='<?= site_url(array('posts', 'create', $posts_item->TID)) ?>'">수정</button>
 
         <?= form_open('posts/delete', 'style="display:inline"') ?>
         <?= form_hidden('TID', $posts_item->TID) ?>
@@ -40,17 +40,17 @@ use App\EPost;
         <tbody>
             <? foreach ($replies as $reply) : ?>
                 <tr>
-                    <td><?= $reply['ID'] ?></td>
-                    <td><?= nl2br($reply['Paragraph']) ?></td>
-                    <td><?= $reply['CreatedDate'] ?>
+                    <td><?= $reply->ID ?></td>
+                    <td><?= nl2br($reply->Paragraph) ?></td>
+                    <td><?= $reply->CreatedDate ?>
                         <!-- 수정 및 삭제 버튼 -->
-                        <? if ($reply['ID'] === $this->session->userdata('UserData')) : ?>
-                            <button class="updateBtn" id=<?= $reply['RID'] ?>>
+                        <? if ($reply->ID === $this->session->getUserData()) : ?>
+                            <button class="updateBtn" id=<?= $reply->RID ?>>
                                 수정
                             </button>
 
                             <?= form_open('reply/delete', 'style="display:inline"') ?>
-                            <?= form_hidden('RID', $reply['RID']) ?>
+                            <?= form_hidden('RID', $reply->RID) ?>
                             <button onclick="submit">삭제</button>
                             <?= form_close() ?>
                         <? endif; ?>

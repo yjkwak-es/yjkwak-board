@@ -28,11 +28,7 @@ class Reply extends CI_Controller
             redirect(site_url(array('posts', $TID)));
         }
 
-        $data = array(
-            'TID' => $TID,
-            'ID' => $this->session->userdata('UserData'),
-            'Paragraph' => $Paragraph
-        );
+        $data->newReply($TID,$this->session->getUserData(),$Paragraph);
 
         $this->Reply_model->createReply($data);
         alert('apply it!', site_url(array('posts', $TID)));

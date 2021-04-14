@@ -1,11 +1,13 @@
 <?php
 
+use App\EReply;
+
 class Reply_model extends CI_Model
 {
-    public function get_reply(int $RID): array
+    public function getReply(int $RID): EReply
     {
         $query = $this->db->get_where('Reply', array('RID' => $RID));
-        return $query->row_array();
+        return $query->row(0,EReply::class);
     }
 
     public function getAllReplys(int $TID): array
@@ -14,12 +16,12 @@ class Reply_model extends CI_Model
         $cnt = $this->db->count_all_results('', FALSE);
 
         return [
-            'result' => $query->get()->result_array(),
+            'result' => $query->get()->result(EReply::class),
             'totalCount' => $cnt
         ];
     }
 
-    public function createReply(array $data)
+    public function createReply(EReply $data)
     {
         return $this->db->insert('Reply',$data);
     }
@@ -27,8 +29,7 @@ class Reply_model extends CI_Model
     public function setReply(int $RID, string $paragraph)
     {
         $this->db->where('RID',$RID);
-        $this->db->set('Paragraph',$paragraph);
-        return $this->db->update('Reply');
+        return $this->db->update('Reply',array('Paragraph',$paragraph));
     }
 
     public function deleteReplyByID(int $RID)
