@@ -1,7 +1,12 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>CodeIgniter 튜토리얼(Tutorial)</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/board.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -39,19 +44,23 @@
     <h1 style="text-align : center"><?= $title ?></h1>
     <div class="Layer">
         <div class="Menu">
-            <button id="menuOpen">메뉴</button>
+            <button class="btn btn-primary" id="menuOpen"><span class="glyphicon glyphicon-align-justify" aria-hidden="true">&laquo;</span></button>
         </div>
 
         <div class="MenuPopup">
             <div class="FlexContainer">
-                <div><span>접속자 : <a href="javascript:popup()"><?= $this->session->selectUserData() ?></a></span></div>
+                <div><a href="javascript:popup()"><?= $this->session->selectUserData() ?></a></div>
                 <div><a href="<?= site_url(array('member', 'logout')) ?>">logout</a></div>
-                <div> <button id="menuClose"> X </button> </div>
+                <div> <button class="close" aria-label="Close" id="menuClose">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             </div>
-            
+
             <div>
-            <a href="<?=site_url('posts')?>">Posts archive</a>
+                <a href="<?= site_url('posts') ?>">Posts archive</a>
             </div>
-            
+
         </div>
     </div>
+<div class="MainBody">

@@ -1,5 +1,8 @@
 <?php
 
+use App\EMember;
+use App\EUser;
+
 class Member extends CI_Controller
 {
     public function __construct()
@@ -13,23 +16,23 @@ class Member extends CI_Controller
     {
         $data['title'] = 'Login';
 
-        $ID = $this->input->post('ID',true);
-        $PW = $this->input->post('PW',true);
+        $ID = $this->input->post('ID', true);
+        $PW = $this->input->post('PW', true);
 
         if (empty($ID) || empty($PW)) :
             //View 로그인
             $this->load->view('member/login');
         else :
-            $data['member_item'] = $this->Member_model->getMemberByID($ID);
+            $member = $this->Member_model->getMemberByID($ID);
 
-            if (empty($data['member_item']) || ($data['member_item']['PW'] !== $PW)) {
+            if (empty($member) || ($member->PW !== $PW)) {
                 show_404();
             }
 
             $this->session->set_userdata('UserData', $ID);
 
-            if(isset($data['member_item']['name'])) :
-                $this->session->set_userdata('UserName',$data['member_item']['name']);
+            if (isset($member->name)) :
+                $this->session->set_userdata('UserName', $member->name);
             endif;
 
             redirect('/posts');
@@ -44,30 +47,22 @@ class Member extends CI_Controller
 
     public function setInfo()
     {
-        $name = $this->input->post('name',true);
-        
-        if(empty($name)) {
-            $data['member'] = array(
-                'name' => '',
-                'age' => '',
-                'gender' => ''
-            );
+        $name = $this->input->post('name', true);
 
+        if (empty($name)) {
+            $data['member'] = new EMember();
             $data['member'] = $this->Member_model->getMemberByID($this->session->getUserData());
-            $this->load->view('member/userInfo',$data);
-        }
-        else {
-            $data = array(
-                'name' => $name,
-                'age' => $this->input->post('age'),
-                'gender' => $this->input->post('gender')
-            );
-    
-            $result = $this->Member_model->setMember($this->session->getUserData(),$data);
-            if($result) :
-                $this->session->set_userdata('UserName',$data['name']);
+
+            $this->load->view('member/userInfo', $data);
+        } else {
+            $data = new EMember();
+            $data->setInfo($name, $this->input->post('age', true), $this->input->post('gender', true));
+            $result = $this->Member_model->setMember($this->session->getUserData(), $data);
+            
+            if ($result) :
+                $this->session->set_userdata('UserName', $data->name);
                 close();
-            else:
+            else :
                 alert('Err');
             endif;
         }

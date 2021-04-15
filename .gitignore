@@ -18,6 +18,8 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 
 application/config/sess/*
 /uploads/
+/css/
+/js/
 
 # IDE Files
 #-------------------------

@@ -1,5 +1,5 @@
 table {
-    width : 60%;
+    margin-top : 50px;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -9,22 +9,14 @@ textarea {
     resize: none;
 }
 
-table,td,th {
-    border-collapse: collapse;
-    border : 1px solid black;
-}
-
 div {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
 }
 
-a:link {
-    color : blue;
-}
-a:visited {
-    color : blue;
+.MainBody {
+    width:60%;
 }
 
 .Layer {
@@ -71,12 +63,7 @@ a:visited {
 }
 
 .FlexContainer > div {
-    margin : 20px;
-}
-
-.page a{
-    margin : 5px;
-    font-size: 20px;
+    margin : 25px;
 }
 
 .Posts {
@@ -85,7 +72,6 @@ a:visited {
 }
 
 .PostHead {
-    width : 60%;
     margin-top : 20px;
     margin-left: auto;
     margin-right: auto;
@@ -96,15 +82,14 @@ a:visited {
 .PostHead span {
     display: inline-block;
     font-size: 20px;
-    font-weight: bold;
 }
 
 .PostBody {
-    width : 60%;
     height: 700px;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
+    padding : 15px;
     text-align: left;
     overflow: auto;
     word-break: break-all;
@@ -113,7 +98,6 @@ a:visited {
 }
 
 .CreatePost {
-    width : 60%;
     height: 700px;
     margin-top: 20px;
     margin-left: auto;
@@ -135,35 +119,17 @@ a:visited {
 }
 
 .Search {
-    width : 60%;
     margin-top : 15px;
     margin-left: auto;
     margin-right: auto;
     text-align : right;
 }
 
-.Modify {
-    width : 60%;
-    margin-left: auto;
-    margin-right: auto;
-    text-align : right;
-}
-
-.Modify button {
-    display : inline;
-}
-
 .Replies {
-    width : 60%;
     margin-bottom: 10px;
 }
 
-.Replies table {
-    width : 100%
-}
-
 .Write_reply {
-    width : 60%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
@@ -177,3 +143,11 @@ a:visited {
     text-align: right;
 }
 
+.pagination {
+    justify-content: center; 
+}
+
+.form-control {
+    width : 8%;
+    display: inline;
+}

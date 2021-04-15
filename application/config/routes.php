@@ -66,5 +66,5 @@ $route['posts'] = 'posts';
 
 $route['reply/create'] = 'reply/create';
 
-$route['(:any)'] = 'posts/view/$1';
+$route['(:any)'] = 'pages/home';
 $route['default_controller'] = 'pages/view';

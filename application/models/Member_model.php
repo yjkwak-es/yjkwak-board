@@ -1,5 +1,8 @@
 <?php
 
+use App\EMember;
+use App\EUser;
+
 class Member_model extends CI_Model
 {
     public function __construct()
@@ -10,12 +13,12 @@ class Member_model extends CI_Model
     public function getMemberByID(string $id)
     {
         $query = $this->db->get_where('test_db', array('ID' => $id));
-        return $query->row_array();
+        return $query->row(0, EMember::class);
     }
 
-    public function setMember(string $id,array $data)
+    public function setMember(string $id, EMember $data)
     {
-        $this->db->where('ID',$id);
-        return $this->db->update('test_db',$data);
+        $this->db->where('ID', $id);
+        return $this->db->update('test_db', $data);
     }
 }

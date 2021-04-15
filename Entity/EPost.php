@@ -11,13 +11,16 @@ class EPost
     public string $CreatedDate;
     public $FileID;
 
-    public function emptyPost()
+    public static function createEmpty(): EPost
     {
-        $this->TID = 0;
-        $this->Title = '';
-        $this->Paragraph = '';
-        $this->CreatedDate = '';
-        $this->FileID = null;
+        $post = new EPost;
+        $post->TID = 0;
+        $post->Title = '';
+        $post->Paragraph = '';
+        $post->CreatedDate = '';
+        $post->FileID = null;
+
+        return $post;
     }
 
     public function newPost(string $ID, string $Title, string $Paragraph, $FileID = null)

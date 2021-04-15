@@ -10,33 +10,38 @@ use App\EPost;
 ?>
 
 <? if ($posts_item->ID === $this->session->getUserData()) : ?>
-    <div class="Modify">
-        <button onclick="document.location='<?= site_url(array('posts', 'create', $posts_item->TID)) ?>'">수정</button>
+    <div class="text-right">
+        <button onclick="document.location='<?= site_url(array('posts', 'create', $posts_item->TID)) ?>'" class="btn btn-light">수정</button>
 
         <?= form_open('posts/delete', 'style="display:inline"') ?>
         <?= form_hidden('TID', $posts_item->TID) ?>
-        <button onclick='submit'>삭제</button>
+        <button onclick='submit' class="btn btn-danger">삭제</button>
         <?= form_close() ?>
     </div>
 <? endif ?>
 
-<div class="PostHead">
-    <span style="width : 20%">작성자 : <?= $posts_item->ID ?></span>
-    <span style="width : 58%"><?= $posts_item->Title ?></span>
-    <span style="width : 20%"><?= $posts_item->CreatedDate ?></span>
+<div>
+    <div class="blog-post PostHead">
+        <div class="blog-post-title">
+            <span style="width : 58%"><?= $posts_item->Title ?></span>
+        </div>
+        <div style="text-align:right">
+            <p>작성자 : <?= $posts_item->ID ?></p>
+            <p><?= $posts_item->CreatedDate ?></p>
+        </div>
+    </div>
 </div>
 
 <div class="PostBody">
-    <?= $posts_item->Paragraph ?>
-
+    <p class="lead"><?= $posts_item->Paragraph ?></p>
     <? if (isset($file)) : ?>
         <div class="Download">
-            <a href="<?= site_url(array('posts', 'download', $file['FileID'])) ?>" target="_blank"><?=$file['name_orig']?></a>
+            <a href="<?= site_url(array('posts', 'download', $file['FileID'])) ?>" target="_blank"><?= $file['name_orig'] ?></a>
         </div>
     <? endif; ?>
 </div>
 
-<div class='Replies'>
+<div class='table table-striped table-bordered Replies'>
     <table>
         <colgroup>
             <col width='15%' />
@@ -51,13 +56,13 @@ use App\EPost;
                     <td><?= $reply->CreatedDate ?>
                         <!-- 수정 및 삭제 버튼 -->
                         <? if ($reply->ID === $this->session->getUserData()) : ?>
-                            <button class="updateBtn" id=<?= $reply->RID ?>>
+                            <button class="btn btn-light btn-sm updateBtn" id=<?= $reply->RID ?>>
                                 수정
                             </button>
 
                             <?= form_open('reply/delete', 'style="display:inline"') ?>
                             <?= form_hidden('RID', $reply->RID) ?>
-                            <button onclick="submit">삭제</button>
+                            <button onclick="submit" class='btn btn-danger btn-sm'>삭제</button>
                             <?= form_close() ?>
                         <? endif; ?>
                     </td>
@@ -75,8 +80,8 @@ use App\EPost;
         <textarea name="replyText"></textarea>
     </div>
 
-    <div class="Modify">
-        <input type="submit" value="답글 달기">
+    <div class="text-right">
+        <input type="submit" class="btn btn-success" value="답글 달기">
     </div>
     <?= form_close() ?>
 </div>

@@ -2,7 +2,7 @@
 
 use App\EPost;
 
-define("PAGESIZE", 3); //Number of Posts in 1 page
+define("PAGESIZE", 5); //Number of Posts in 1 page
 define("PAGEDIV", 3); //Number of pages in 1 Division
 
 class Posts extends CI_Controller
@@ -117,8 +117,7 @@ class Posts extends CI_Controller
         $title = $this->input->post('title', true);
 
         if (empty($title)) :
-            $post = new EPost();
-            $post->emptyPost();
+            $post = EPost::createEmpty();
 
             $data['posts_item'] = $post;
             $data['mod'] = 'posts/create';
