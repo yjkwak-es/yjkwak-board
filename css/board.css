@@ -27,6 +27,53 @@ a:visited {
     color : blue;
 }
 
+.Layer {
+    width: 15%;
+    height: 100%;
+    position: fixed;
+    text-align: left;
+    top: 0; 
+    left: 0; 
+}
+
+.Menu {
+    width : 60%;
+    position : fixed;
+    text-align: left;
+    top : 0;
+    left : 0;
+    padding-top : 20px;
+    padding-left : 20px;
+}
+
+.MenuPopup {
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    background-color: rgba(255, 255, 255, 0.13); 
+    border: 1px solid #e5e5e5; 
+    position: absolute; 
+    top: 0; 
+    left: 0;
+    border-radius: 5px; 
+    box-shadow: 0 0 10px -4px;
+    display: none;
+
+    padding : 20px;
+}
+
+.MenuPopup div {
+    margin-bottom : 30px;
+}
+
+.FlexContainer {
+    display : flex;
+}
+
+.FlexContainer > div {
+    margin : 20px;
+}
+
 .page a{
     margin : 5px;
     font-size: 20px;
@@ -129,3 +176,4 @@ a:visited {
 .Download {
     text-align: right;
 }
+
