@@ -20,11 +20,12 @@ class Posts extends CI_Controller
     /**
      * 메인 게시판
      */
+
     public function index()
     {
-        $keyword = $this->input->get('keyword');
-        $opt = $this->input->get('opt');
-        $page = $this->input->get('page');
+        $keyword = $this->input->get('keyword', true);
+        $opt = $this->input->get('opt', true);
+        $page = $this->input->get('page', true);
 
         //검색 키워드 설정
         if (empty($keyword)) {
@@ -78,10 +79,18 @@ class Posts extends CI_Controller
     /**
      * 게시글 보기
      */
+
     public function view($TID = NULL)
     {
+        $TID = $this->security->xss_clean($TID);
+        $this->load->model('File_model');
+
         $data['posts_item'] = $this->Posts_model->getPostById($TID);
         $tempRow = $this->Reply_model->getAllReplys($TID);
+
+        if (isset($data['posts_item']->FileID)) :
+            $data['file'] = $this->File_model->getFile($data['posts_item']->FileID);
+        endif;
 
         $data['replies'] = $tempRow['result'];
         $data['replyCnt'] = $tempRow['totalCount'];
@@ -89,7 +98,6 @@ class Posts extends CI_Controller
         if (empty($data['posts_item'])) {
             show_404();
         }
-
 
         $data['title'] = $data['posts_item']->Title;
 
@@ -101,41 +109,67 @@ class Posts extends CI_Controller
     /**
      * 게시글 게제
      */
-    public function create($TID = null)
+
+    public function create()
     {
         $data['title'] = 'Create Posts';
 
-        $post = new EPost();
-        $title = $this->input->post('title');
+        $title = $this->input->post('title', true);
 
         if (empty($title)) :
-            if ($TID) :
-                $post = $this->Posts_model->getPostById($TID);
-
-                if ($post->ID !== $this->session->getUserData()) :
-                    redirect('posts/create');
-                endif;
-            else :
-                $post->emptyPost();
-            endif;
+            $post = new EPost();
+            $post->emptyPost();
 
             $data['posts_item'] = $post;
-            //View 수정 및 새글 쓰기 창
+            $data['mod'] = 'posts/create';
+
             $this->load->view('templates/header', $data);
             $this->load->view('posts/create');
             $this->load->view('templates/footer');
         else :
             $newPost = new EPost;
-            $newPost->newPost($this->session->getUserData(), $title, $this->input->post('text'));
+            $newPost->newPost($this->session->getUserData(), $title, $this->input->post('text', true));
 
-            if ($this->input->post('TID') != 0) :
-                $this->Posts_model->setPost($this->input->post('TID'), $newPost);
-
-                $updatedUrl = array('posts', $this->input->post('TID'));
-                alert('The post updated!', site_url($updatedUrl));
-            else :
-                $this->Posts_model->createPost($newPost);
+            if ($this->Posts_model->createPost($newPost)) :
                 alert('The post created!', site_url('posts'));
+            else :
+                alert('err', site_url('posts'));
+            endif;
+        endif;
+    }
+
+    /**
+     * 게시글 수정
+     */
+
+    public function set($TID = null)
+    {
+        $TID = $this->security->xss_clean($TID);
+        $data['title'] = 'Update Posts';
+
+        $title = $this->input->post('title',true);
+
+        if (empty($title)) :
+            $post = $this->Posts_model->getPostById($TID);
+
+            if ($post->ID !== $this->session->getUserData()) :
+                redirect('posts/create');
+            endif;
+
+            $data['posts_item'] = $post;
+            $data['mod'] = 'posts/set';
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('posts/create');
+            $this->load->view('templates/footer');
+        else :
+            $newPost = new EPost();
+            $newPost->newPost($this->session->getUserData(), $title, $this->input->post('text', true));
+
+            if ($this->Posts_model->setPost($this->input->post('TID'),$newPost)) :
+                alert('The post updated!', site_url('posts'));
+            else :
+                alert('err', site_url('posts'));
             endif;
         endif;
     }
@@ -143,8 +177,11 @@ class Posts extends CI_Controller
     /**
      * 게시글 삭제
      */
-    protected function deletePosts($TID)
+    
+    public function deletePosts($TID)
     {
+        $TID = $this->security->xss_clean($TID);
+
         $cnt = ($this->Reply_model->getAllReplys($TID))['totalCount'];
         if ($cnt != 0) :
             $this->Reply_model->deleteReplyAll($TID);

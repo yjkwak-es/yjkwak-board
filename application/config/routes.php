@@ -56,8 +56,11 @@ $route['member'] = 'member/login';
 $route['member/logout'] = 'member/logout';
 
 $route['posts/create'] = 'file_posts/create';
-$route['posts/create/(:any)'] = 'file_posts/create/$1';
+$route['posts/create/(:any)'] = 'file_posts/set/$1';
+$route['posts/set'] = 'file_posts/set';
 $route['posts/delete'] = 'file_posts/delete';
+$route['posts/download'] = 'file_posts/downloadfile';
+$route['posts/download/([A-Za-z0-9]+)'] = 'file_posts/downloadfile/$1';
 $route['posts/(:any)'] = 'posts/view/$1';
 $route['posts'] = 'posts';
 

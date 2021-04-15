@@ -125,3 +125,7 @@ a:visited {
 .Write_reply textarea{
     width : 100%;
 }
+
+.Download {
+    text-align: right;
+}

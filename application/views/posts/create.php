@@ -1,6 +1,6 @@
 <?= validation_errors(); ?>
 
-<?= form_open_multipart('posts/create') ?>
+<?= form_open_multipart($mod) ?>
 <input type="hidden" name="TID" value="<?= $posts_item->TID ?>" />
 
 <div class="createPost">

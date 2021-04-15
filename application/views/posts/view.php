@@ -28,6 +28,12 @@ use App\EPost;
 
 <div class="PostBody">
     <?= $posts_item->Paragraph ?>
+
+    <? if (isset($file)) : ?>
+        <div class="Download">
+            <a href="<?= site_url(array('posts', 'download', $file['FileID'])) ?>" target="_blank"><?=$file['name_orig']?></a>
+        </div>
+    <? endif; ?>
 </div>
 
 <div class='Replies'>

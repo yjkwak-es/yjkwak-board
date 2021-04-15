@@ -21,8 +21,8 @@ class Reply extends CI_Controller
          * kebob-case           # html tag, attribute, url parameter
          */
         $data = new EReply();
-        $TID = $this->input->post('TID');
-        $Paragraph = $this->input->post('replyText');
+        $TID = $this->input->post('TID',true);
+        $Paragraph = $this->input->post('replyText',true);
 
         if (empty($Paragraph)) {
             redirect(site_url(array('posts', $TID)));
@@ -36,7 +36,7 @@ class Reply extends CI_Controller
 
     public function delete()
     {
-        $RID = $this->input->post('RID');
+        $RID = $this->input->post('RID',true);
 
         if (empty($RID)) {
             redirect(site_url('posts'));
@@ -48,7 +48,7 @@ class Reply extends CI_Controller
 
     public function set()
     {
-        $RID = $this->input->post('RID');
+        $RID = $this->input->post('RID',true);
         $Paragraph = $this->input->post('Paragraph');
 
         if (empty($Paragraph) || empty($RID)) {

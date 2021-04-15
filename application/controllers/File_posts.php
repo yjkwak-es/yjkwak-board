@@ -19,29 +19,64 @@ class File_posts extends Posts
         $this->load->model('File_model');
     }
 
-    public function create($TID = null)
+    /**
+     * 게시글 게제
+     */
+
+    public function create()
     {
         if (isset($_FILES['upFile']) && $_FILES['upFile']['name'] != "") :
             $file = $_FILES['upFile'];
+
             $fileID = $this->uploadFile($file);
 
             $newPost = new EPost();
             $newPost->newPost($this->session->getUserData(), $this->input->post('title'), $this->input->post('text'), $fileID);
 
-            if ($this->input->post('TID') != 0) :
-                $this->Posts_model->setPost($this->input->post('TID'), $newPost);
+            if ($this->Posts_model->createPost($newPost)) :
 
-                $updatedUrl = array('posts', $this->input->post('TID'));
-                alert('The post updated!', site_url($updatedUrl));
-            else :
-                $this->Posts_model->createPost($newPost);
                 alert('The post created!', site_url('posts'));
+            else :
+                alert('err', site_url('posts'));
+
             endif;
         else :
-            parent::create($TID);
+            parent::create();
         endif;
     }
 
+    /**
+     * 게시글 수정
+     */
+
+    public function set($TID = null)
+    {
+        $TID = $this->security->xss_clean($TID);
+
+        if (isset($_FILES['upFile']) && $_FILES['upFile']['name'] != "") :
+            $file = $_FILES['upFile'];
+
+            $fileID = $this->uploadFile($file);
+
+            $newPost = new EPost();
+            $newPost->newPost($this->session->getUserData(), $this->input->post('title'), $this->input->post('text'), $fileID);
+            
+            if ($this->Posts_model->setPost($this->input->post('TID'),$newPost)) :
+
+                alert('The post updated!', site_url('posts'));
+            else :
+                alert('err', site_url('posts'));
+
+            endif;
+        else :
+            parent::set($TID);
+        endif;
+    }
+
+    /**
+     * 게시글 삭제
+     */
+    
     public function delete()
     {
         $TID = $this->input->post('TID');
@@ -51,26 +86,55 @@ class File_posts extends Posts
             redirect('posts');
         endif;
 
-        if(!empty($post->FileID)) :
+        if (!empty($post->FileID)) :
             $this->clearFile($post->TID);
         endif;
 
         $this->deletePosts($TID);
     }
 
+    /**
+     * 첨부파일 삭제
+     */
+
     public function clearFile(int $TID)
     {
+        $TID = $this->security->xss_clean($TID);
+
         $filePost = $this->Posts_model->getPostById($TID);
         $file = $this->File_model->getFile($filePost->FileID);
 
-        unlink(UPLOADPATH .'\\'. $file['name_save']);
-        
+        unlink(UPLOADPATH . '\\' . $file['name_save']);
+
         $fileID = $filePost->FileID;
         $filePost->FileID = null;
 
         $this->Posts_model->setPost($filePost->TID, $filePost);
         $this->File_model->deleteFile($fileID);
     }
+
+    /**
+     * 파일 다운로드
+     */
+
+    public function downloadfile(string $FileID = null)
+    {
+        $FileID = $this->security->xss_clean($FileID);
+
+        if (empty($FileID)) :
+            redirect('posts');
+        endif;
+
+        $this->load->helper('download');
+        $file = $this->File_model->getFile($FileID);
+        $data = file_get_contents(UPLOADPATH . '\\' . $file['name_save']);
+
+        force_download($file['name_orig'], $data);
+    }
+
+    /**
+     * 파일 업로드
+     */
 
     private function uploadFile(array $file)
     {

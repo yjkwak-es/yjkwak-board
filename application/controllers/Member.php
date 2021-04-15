@@ -13,8 +13,8 @@ class Member extends CI_Controller
     {
         $data['title'] = 'Login';
 
-        $ID = $this->input->post('ID');
-        $PW = $this->input->post('PW');
+        $ID = $this->input->post('ID',true);
+        $PW = $this->input->post('PW',true);
 
         if (empty($ID) || empty($PW)) :
             //View 로그인
@@ -29,6 +29,11 @@ class Member extends CI_Controller
             }
 
             $this->session->set_userdata('UserData', $ID);
+
+            if(isset($data['member_item']['name'])) :
+                $this->seession->set_userdata('UserName',$data['member_item']['name']);
+            endif;
+            
             redirect('/posts');
         endif;
     }
@@ -43,7 +48,7 @@ class Member extends CI_Controller
     {
         $this->load->library('session');
         $this->load->helper('view');
-        $name = $this->input->post('name');
+        $name = $this->input->post('name',true);
         
         if(empty($name)) {
             $data['member'] = array(
