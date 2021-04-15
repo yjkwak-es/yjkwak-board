@@ -23,3 +23,11 @@ if (!function_exists('alert')) {
         $CI->load->view('common/alert', ['msg' => $msg, 'url' => $url]);
     }
 }
+
+if(!function_exists('close')) {
+    function close()
+    {
+        $CI = &get_instance();
+        $CI->load->view('common/closePopup');
+    }
+}

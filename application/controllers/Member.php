@@ -18,9 +18,7 @@ class Member extends CI_Controller
 
         if (empty($ID) || empty($PW)) :
             //View 로그인
-            $this->load->view('templates/header', $data);
             $this->load->view('member/login');
-            $this->load->view('templates/footer');
         else :
             $data['member_item'] = $this->Member_model->getMemberByID($ID);
 
@@ -31,9 +29,9 @@ class Member extends CI_Controller
             $this->session->set_userdata('UserData', $ID);
 
             if(isset($data['member_item']['name'])) :
-                $this->seession->set_userdata('UserName',$data['member_item']['name']);
+                $this->session->set_userdata('UserName',$data['member_item']['name']);
             endif;
-            
+
             redirect('/posts');
         endif;
     }
@@ -46,8 +44,6 @@ class Member extends CI_Controller
 
     public function setInfo()
     {
-        $this->load->library('session');
-        $this->load->helper('view');
         $name = $this->input->post('name',true);
         
         if(empty($name)) {
@@ -69,7 +65,8 @@ class Member extends CI_Controller
     
             $result = $this->Member_model->setMember($this->session->getUserData(),$data);
             if($result) :
-                alert('Saved!');
+                $this->session->set_userdata('UserName',$data['name']);
+                close();
             else:
                 alert('Err');
             endif;

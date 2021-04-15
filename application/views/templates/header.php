@@ -18,6 +18,6 @@
     <h1 style="text-align : center"><?php echo $title ?></h1>
     
     <div class=Search>
-        <span>접속자 : <a href="javascript:popup()"><?=$this->session->getUserData()?></a></span> 
+        <span>접속자 : <a href="javascript:popup()"><?=$this->session->selectUserData()?></a></span> 
         <a href="<?=site_url(array('member','logout'))?>">logout</a>
     </div>
