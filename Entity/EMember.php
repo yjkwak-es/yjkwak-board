@@ -24,5 +24,7 @@ class EMember
         $member->name = $name;
         $member->age = $age;
         $member->gender = $gender;
+
+        return $member;
     }
 }

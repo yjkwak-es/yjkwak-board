@@ -19,6 +19,12 @@ class Member_model extends CI_Model
     public function setMember(string $id, EMember $data)
     {
         $this->db->where('ID', $id);
-        return $this->db->update('test_db', $data);
+        $array = array(
+            'name' => $data->name,
+            'age' => $data->age,
+            'gender' => $data->gender
+        );
+        
+        return $this->db->update('test_db', $array);
     }
 }

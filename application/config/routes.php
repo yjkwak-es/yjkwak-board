@@ -54,6 +54,8 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['member'] = 'member/login';
 $route['member/logout'] = 'member/logout';
+$route['member/infotest'] = 'member/infotest';
+$route['member/getInfo'] = 'member/getInfo';
 
 $route['posts/create'] = 'posts/create';
 $route['posts/create/(:any)'] = 'posts/set/$1';
@@ -61,6 +63,7 @@ $route['posts/set'] = 'posts/set';
 $route['posts/delete'] = 'posts/delete';
 $route['posts/download'] = 'posts/downloadfile';
 $route['posts/download/([A-Za-z0-9]+)'] = 'posts/downloadfile/$1';
+
 $route['posts/(:any)'] = 'posts/view/$1';
 $route['posts'] = 'posts';
 

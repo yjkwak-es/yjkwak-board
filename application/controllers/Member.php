@@ -27,14 +27,14 @@ class Member extends CI_Controller
             $this->load->view('templates/footer');
         else :
             $member = $this->Member_model->getMemberByID($ID);
-            
+
             if (empty($member) || ($member->PW !== $PW)) {
                 show_404();
             }
 
             $this->session->set_userdata('UserData', $ID);
             $admin = $this->Admin_model->memberCheck($member->PID);
-            
+
             $this->session->set_userdata('admin', $admin);
             if (isset($member->name)) :
                 $this->session->set_userdata('UserName', $member->name);
@@ -69,5 +69,26 @@ class Member extends CI_Controller
                 alert('Err');
             endif;
         }
+    }
+
+    public function infotest()
+    {
+        $data = EMember::setInfo($this->input->post('name',true), $this->input->post('age', true), $this->input->post('gender', true));
+        $result = $this->Member_model->setMember($this->session->getUserData(), $data);
+
+        if ($result) :
+            $this->session->set_userdata('UserName', $this->input->post('name',true));
+        endif;
+        
+        header('Content-type: application/json');
+        echo json_encode($result);
+    }
+
+    public function getInfo()
+    {
+        $member = $this->Member_model->getMemberByID($this->session->getUserData());
+
+        header('Content-type: application/json');
+        echo json_encode($member);
     }
 }
