@@ -20,7 +20,7 @@ class Reply extends CI_Controller
          * SNAKE_CASE (UPPER)   # variable, member field, Table Column Name
          * kebob-case           # html tag, attribute, url parameter
          */
-        $data = new EReply();
+        
         $TID = $this->input->post('TID',true);
         $Paragraph = $this->input->post('replyText',true);
 
@@ -28,7 +28,7 @@ class Reply extends CI_Controller
             redirect(site_url(array('posts', $TID)));
         }
 
-        $data->newReply($TID,$this->session->getUserData(),$Paragraph);
+        $data = EReply::newReply($TID,$this->session->getUserData(),$Paragraph);
 
         $this->Reply_model->createReply($data);
         alert('apply it!', site_url(array('posts', $TID)));

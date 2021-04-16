@@ -2,11 +2,11 @@
     <?= form_open('member/setInfo',array('class'=>'form-signin')) ?>
 
     <div>
-        <label for="name">이름</label> <input type="text" name="name" id="name" autocomplete="off" value=<?= $member['name'] ?>>
+        <label for="name">이름</label> <input type="text" name="name" id="name" autocomplete="off" value=<?= $member->name ?>>
     </div>
 
     <div>
-        <label for="age">나이</label> <input type="text" name="age" id="age" autocomplete="off" value=<?= $member['age'] ?>>
+        <label for="age">나이</label> <input type="text" name="age" id="age" autocomplete="off" value=<?= $member->age ?>>
     </div>
 
     <div>
@@ -20,8 +20,8 @@
     <input type="submit" value="저장">
 
     <script>
-        <? if (isset($member['gender'])) : ?>
-            <? if ($member['gender'] === 'M') : ?>
+        <? if (isset($member->gender)) : ?>
+            <? if ($member->gender === 'M') : ?>
                 document.getElementById('male').checked = true;
             <? else : ?>
                 document.getElementById('female').checked = true;

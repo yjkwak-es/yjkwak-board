@@ -21,9 +21,9 @@ use App\EPost;
 <? endif ?>
 
 <div>
-    <div class="blog-post PostHead">
-        <div class="blog-post-title">
-            <span style="width : 58%"><?= $posts_item->Title ?></span>
+    <div class="PostHead">
+        <div class="PostTitle">
+            <?= $posts_item->Title ?>
         </div>
         <div style="text-align:right">
             <p>작성자 : <?= $posts_item->ID ?></p>

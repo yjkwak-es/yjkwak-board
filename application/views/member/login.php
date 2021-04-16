@@ -1,12 +1,12 @@
 <?=validation_errors(); ?>
 
-<div class="loginForm">
-<?php echo form_open('member/login') ?>
-    <label for="ID"> ID </label>
-    <input type="input" name="ID" /> <br>
-    <label for="PW"> PW </label>
-    <input type="password" name="PW" /> <br>
-    <input type="submit" name="login" value="로그인" />
+<div class="login">
+<?= form_open('member/login',array('class'=>'form-signin')) ?>
+    <label for="ID" class="sr-only">ID</label>
+    <input type="input" name="ID" id="ID" class='form-control' placeholder="ID" required autofocus/> <br>
+    <label for="PW" class="sr-only">PW</label>
+    <input type="password" name="PW" class='form-control' placeholder="Password" required autofocus/> <br>
+    <input type="submit" name="login" value="로그인" class='btn btn-lg btn-primary btn-block' style="margin-top : 10px"/>
 </form>  
 </div>
 

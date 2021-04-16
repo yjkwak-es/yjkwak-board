@@ -10,11 +10,14 @@ class EReply
     public string $Paragraph;
     public string $CreatedDate;
 
-    public function newReply(int $TID, string $ID, string $Paragraph)
+    public static function newReply(int $TID, string $ID, string $Paragraph) : EReply
     {
-        $this->TID = $TID;
-        $this->ID = $ID;
-        $this->Paragraph = $Paragraph;
-        $this->CreatedDate = date('Y-m-d H:i:s');
+        $Reply = new EReply();
+        $Reply->TID = $TID;
+        $Reply->ID = $ID;
+        $Reply->Paragraph = $Paragraph;
+        $Reply->CreatedDate = date('Y-m-d H:i:s');
+
+        return $Reply;
     }
 }

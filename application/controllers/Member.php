@@ -9,6 +9,7 @@ class Member extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Member_model');
+        $this->load->model('Admin_model');
         $this->allow = array('login', 'logout');
     }
 
@@ -21,16 +22,20 @@ class Member extends CI_Controller
 
         if (empty($ID) || empty($PW)) :
             //View 로그인
+            $this->load->view('templates/header');
             $this->load->view('member/login');
+            $this->load->view('templates/footer');
         else :
             $member = $this->Member_model->getMemberByID($ID);
-
+            
             if (empty($member) || ($member->PW !== $PW)) {
                 show_404();
             }
 
             $this->session->set_userdata('UserData', $ID);
-
+            $admin = $this->Admin_model->memberCheck($member->PID);
+            
+            $this->session->set_userdata('admin', $admin);
             if (isset($member->name)) :
                 $this->session->set_userdata('UserName', $member->name);
             endif;
@@ -50,17 +55,15 @@ class Member extends CI_Controller
         $name = $this->input->post('name', true);
 
         if (empty($name)) {
-            $data['member'] = new EMember();
             $data['member'] = $this->Member_model->getMemberByID($this->session->getUserData());
 
             $this->load->view('member/userInfo', $data);
         } else {
-            $data = new EMember();
-            $data->setInfo($name, $this->input->post('age', true), $this->input->post('gender', true));
+            $data = EMember::setInfo($name, $this->input->post('age', true), $this->input->post('gender', true));
             $result = $this->Member_model->setMember($this->session->getUserData(), $data);
-            
+
             if ($result) :
-                $this->session->set_userdata('UserName', $data->name);
+                $this->session->set_userdata('UserName', $name);
                 close();
             else :
                 alert('Err');

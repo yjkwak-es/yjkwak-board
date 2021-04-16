@@ -23,12 +23,15 @@ class EPost
         return $post;
     }
 
-    public function newPost(string $ID, string $Title, string $Paragraph, $FileID = null)
+    public static function newPost(string $ID, string $Title, string $Paragraph, $FileID = null)
     {
-        $this->ID = $ID;
-        $this->Title = $Title;
-        $this->Paragraph = $Paragraph;
-        $this->CreatedDate = date('Y-m-d H:i:s');
-        $this->FileID = $FileID;
+        $post = new EPost;
+        $post->ID = $ID;
+        $post->Title = $Title;
+        $post->Paragraph = $Paragraph;
+        $post->CreatedDate = date('Y-m-d H:i:s');
+        $post->FileID = $FileID;
+        
+        return $post;
     }
 }
