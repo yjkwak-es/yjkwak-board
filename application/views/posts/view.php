@@ -9,7 +9,7 @@
 use App\EPost;
 ?>
 
-<? if ($posts_item->ID === $this->session->getUserData()) : ?>
+<? if ($posts_item->ID === $this->session->getUserData() || $this->session->isAdmin()) : ?>
     <div class="text-right">
         <button onclick="document.location='<?= site_url(array('posts', 'create', $posts_item->TID)) ?>'" class="btn btn-light">수정</button>
 

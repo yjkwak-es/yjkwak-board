@@ -133,6 +133,7 @@ class Posts extends CI_Controller
             $data['posts_item'] = $post;
             $data['mod'] = 'posts/create';
 
+
             $this->load->view('templates/header');
             $this->load->view('templates/mainMenu', $data);
             $this->load->view('posts/create');
@@ -176,9 +177,14 @@ class Posts extends CI_Controller
             $data['posts_item'] = $post;
             $data['mod'] = 'posts/set';
 
+            if ($data['posts_item']->FileID) :
+                $file = $this->File_model->getFile($data['posts_item']->FileID);
+                $data['posts_item']->FileID = $file['name_orig'];
+            endif;
+
             $this->load->view('templates/header');
             $this->load->view('templates/mainMenu', $data);
-            $this->load->view('posts/create');
+            $this->load->view('posts/create', $data);
             $this->load->view('templates/footer');
         else :
             $fileID = null;
@@ -203,7 +209,7 @@ class Posts extends CI_Controller
      * 게시글 삭제
      */
 
-    public function deletePosts()
+    public function delete()
     {
         $TID = $this->input->post('TID', true);
         $post = $this->Posts_model->getPostById($TID);

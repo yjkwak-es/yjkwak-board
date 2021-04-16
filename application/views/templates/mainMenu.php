@@ -31,45 +31,14 @@
         window.open("<?= site_url(array('admin', 'members')) ?>", "유저정보", option);
     }
 
+
+
     $(document).ready(function() {
-        if ('<?= $this->session->isAdmin() ?>' == '1') {
+        if ('<?= $this->session->isAdmin() ?>') {
             $('.allInfoBtn').css('display', 'block');
         } else {
             $('.allInfoBtn').css('display', 'none');
         }
-
-        $('#sendInfo').click(function() {
-            $.ajax({
-                url: "<?= site_url(array('member', 'infotest')) ?>",
-                type: 'POST',
-                async: true,
-                data: {
-                    name: $('#name').val(),
-                    age: $('#age').val(),
-                    gender: $('input:radio[name="gender"]:checked').val()
-                },
-                timeout: 10000,
-                success: function(data) {
-                    alert(data);
-                },
-                error: function(request, status, error) {
-                    $('#name').attr("value", "err");
-                }
-            });
-        });
-
-        $('#userInfo').on('shown.bs.modal', function() {
-            $.ajax({
-                url: "<?= site_url(array('member', 'getInfo')) ?>",
-                async: true,
-                timeout: 10000,
-                success: function(data) {
-                    $('#name').val(data.name);
-                    $('#age').val(data.age);
-                    $('input:radio[name="gender"][value="' + data.gender + '"]').prop('checked', true);
-                }
-            });
-        })
     });
 </script>
 
@@ -86,9 +55,9 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            
+
             <div>
-                <button id='user' class="btn" data-toggle="modal" data-target="#userInfo"><?= $this->session->selectUserData() ?></button>
+                <button id='user' class="btn btn-info" data-toggle="modal" data-target="#userInfo"><?= $this->session->selectUserData() ?></button>
             </div>
 
             <div>
@@ -122,7 +91,7 @@
                         <label for="name" class="sr-only">name</label>
                         <input class="form-control" id="name" placeholder="name" required autofocus></input>
 
-                        <label for="id" class="sr-only">age</label>
+                        <label for="age" class="sr-only">age</label>
                         <input class="form-control" id="age" placeholder="age" required autofocus></input>
 
                         <div>
@@ -142,5 +111,75 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $('#sendInfo').click(function() {
+            $.ajax({
+                url: "<?= site_url(array('member', 'infotest')) ?>",
+                type: 'POST',
+                async: true,
+                data: {
+                    name: $('#name').val(),
+                    age: $('#age').val(),
+                    gender: $('input:radio[name="gender"]:checked').val()
+                },
+                timeout: 10000,
+                success: function(data) {
+                    alert(data);
+                },
+                error: function(request, status, error) {
+                    $('#name').attr("value", "err");
+                }
+            });
+        });
+
+        $('#userInfo').on('shown.bs.modal', function() {
+            $.ajax({
+                url: "<?= site_url(array('member', 'getInfo')) ?>",
+                async: true,
+                timeout: 10000,
+                success: function(data) {
+                    $('#name').val(data.name);
+                    $('#age').val(data.age);
+                    $('input:radio[name="gender"][value="' + data.gender + '"]').prop('checked', true);
+                }
+            });
+        })
+
+        //이름 : 특수문자 및 완성되지 않은 한글 입력제한
+        var replaceChar = /[~!@\#$%^&*\()\-=+_'\;<>0-9\/.\`:\"\\,\[\]?|{}]/gi;
+        var replaceNotFullKorean = /[ㄱ-ㅎㅏ-ㅣ]/gi;
+
+        $(document).ready(function() {
+            $("#name").on("focusout", function() {
+                var x = $(this).val();
+                if (x.length > 0) {
+                    if (x.match(replaceChar) || x.match(replaceNotFullKorean)) {
+                        x = x.replace(replaceChar, "").replace(replaceNotFullKorean, "");
+                    }
+                    $(this).val(x);
+                }
+            }).on("keyup", function() {
+                $(this).val($(this).val().replace(replaceChar, ""));
+            });
+        })
+
+        //나이 : 숫자 외 입력제한
+        var replaceNotInt = /[^0-9]/gi;
+
+        $(document).ready(function() {
+            $("#age").on("focusout", function() {
+                var x = $(this).val();
+                if (x.length > 0) {
+                    if (x.match(replaceNotInt)) {
+                        x = x.replace(replaceNotInt, "");
+                    }
+                    $(this).val(x);
+                }
+            }).on("keyup", function() {
+                $(this).val($(this).val().replace(replaceNotInt, ""));
+            });
+        });
+    </script>
 
     <div class="MainBody">

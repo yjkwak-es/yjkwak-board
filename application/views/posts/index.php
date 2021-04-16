@@ -52,7 +52,7 @@ use App\EPost;
 </div>
 
 <div class="Search">
-    <button onclick="location.href='posts/create'" class="btn btn-outline-dark">새글쓰기</button>
+    <button onclick="location.href='posts/create'" class="btn btn-success">새글쓰기</button>
 </div>
 
 <div class="page">

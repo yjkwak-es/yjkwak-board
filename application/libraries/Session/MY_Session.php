@@ -18,6 +18,10 @@ class MY_Session extends CI_Session
 
     public function isAdmin()
     {
-        return $this->userdata('admin');
+        if ($this->userdata('admin') == 1) :
+            return true;
+        else :
+            return false;
+        endif;
     }
 }

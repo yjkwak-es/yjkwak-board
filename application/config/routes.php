@@ -61,6 +61,7 @@ $route['posts/create'] = 'posts/create';
 $route['posts/create/(:any)'] = 'posts/set/$1';
 $route['posts/set'] = 'posts/set';
 $route['posts/delete'] = 'posts/delete';
+$route['posts/clearFile/(:any)'] = 'posts/clearFile/$1';
 $route['posts/download'] = 'posts/downloadfile';
 $route['posts/download/([A-Za-z0-9]+)'] = 'posts/downloadfile/$1';
 
