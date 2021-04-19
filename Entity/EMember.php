@@ -12,10 +12,13 @@ class EMember
     public $gender;
     protected $admin;
 
-    public function setID(string $ID, string $PW)
+    public static function setID(string $ID, string $PW)
     {
-        $this->ID = $ID;
-        $this->PW = $PW;
+        $member = new EMember();
+        $member->ID = $ID;
+        $member->PW = $PW;
+
+        return $member;
     }
 
     public static function setInfo(string $name, int $age = 0, string $gender = '')

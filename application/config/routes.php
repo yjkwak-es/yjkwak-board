@@ -56,6 +56,7 @@ $route['member'] = 'member/login';
 $route['member/logout'] = 'member/logout';
 $route['member/infotest'] = 'member/infotest';
 $route['member/getInfo'] = 'member/getInfo';
+$route['member/createMember'] = 'member/createMember';
 
 $route['posts/create'] = 'posts/create';
 $route['posts/create/(:any)'] = 'posts/set/$1';

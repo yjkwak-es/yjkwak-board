@@ -10,7 +10,7 @@ class Member extends CI_Controller
         parent::__construct();
         $this->load->model('Member_model');
         $this->load->model('Admin_model');
-        $this->allow = array('login', 'logout');
+        $this->allow = array('login', 'logout','createMember');
     }
 
     public function login()
@@ -71,15 +71,32 @@ class Member extends CI_Controller
         }
     }
 
+    public function createMember()
+    {
+        $newMember = EMember::setID($this->input->post('ID'), $this->input->post('PW'));
+
+        if ($this->Member_model->getMemberByID($newMember->ID)) :
+            $ret = false;
+
+            header('Content-type: application/json');
+            echo json_encode($ret);
+            exit;
+        endif;
+
+        $ret = $this->Member_model->createMember($newMember);
+        header('Content-type: application/json');
+        echo json_encode($ret);
+    }
+
     public function infotest()
     {
-        $data = EMember::setInfo($this->input->post('name',true), $this->input->post('age', true), $this->input->post('gender', true));
+        $data = EMember::setInfo($this->input->post('name', true), $this->input->post('age', true), $this->input->post('gender', true));
         $result = $this->Member_model->setMember($this->session->getUserData(), $data);
 
         if ($result) :
-            $this->session->set_userdata('UserName', $this->input->post('name',true));
+            $this->session->set_userdata('UserName', $this->input->post('name', true));
         endif;
-        
+
         header('Content-type: application/json');
         echo json_encode($result);
     }

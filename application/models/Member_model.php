@@ -27,4 +27,9 @@ class Member_model extends CI_Model
         
         return $this->db->update('test_db', $array);
     }
+
+    public function createMember(EMember $data)
+    {
+        return $this->db->insert('test_db',$data);
+    }
 }
