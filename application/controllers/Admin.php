@@ -1,9 +1,10 @@
 <?php
-require_once __DIR__."/Member.php";
+require_once __DIR__ . "/Member.php";
 
 class Admin extends Member
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->load->model('Admin_model');
@@ -11,9 +12,9 @@ class Admin extends Member
 
     public function members()
     {
-        if(!$this->session->isAdmin()):
+        if (!$this->session->isAdmin()) {
             redirect('posts');
-        endif;
+        }
 
         $tmpRow = $this->Admin_model->getAllMember();
         $data['members'] = $tmpRow['result'];

@@ -97,9 +97,9 @@ class Posts extends CI_Controller
         $data['posts_item'] = $this->Posts_model->getPostById($TID);
         $tempRow = $this->Reply_model->getAllReplys($TID);
 
-        if (isset($data['posts_item']->FileID)) :
+        if (isset($data['posts_item']->FileID)) {
             $data['file'] = $this->File_model->getFile($data['posts_item']->FileID);
-        endif;
+        }
 
         $data['replies'] = $tempRow['result'];
         $data['replyCnt'] = $tempRow['totalCount'];
@@ -127,7 +127,7 @@ class Posts extends CI_Controller
         $title = $this->input->post('title', true);
 
         //have it title? none -> goto view
-        if (empty($title)) :
+        if (empty($title)) {
             $post = EPost::createEmpty();
 
             $data['posts_item'] = $post;
@@ -138,21 +138,21 @@ class Posts extends CI_Controller
             $this->load->view('templates/mainMenu', $data);
             $this->load->view('posts/create');
             $this->load->view('templates/footer');
-        else :
+        } else {
             $fileID = null;
             //is uploaded file?
-            if (isset($_FILES['upFile']) && $_FILES['upFile']['name'] != "") :
+            if (isset($_FILES['upFile']) && $_FILES['upFile']['name'] != "") {
                 $file = $_FILES['upFile'];
                 $fileID = $this->uploadFile($file);
-            endif;
+            }
 
             $newPost = EPost::newPost($this->session->getUserData(), $title, $this->input->post('text', true), $fileID);
-            if ($this->Posts_model->createPost($newPost)) :
+            if ($this->Posts_model->createPost($newPost)) {
                 alert('The post created!', site_url('posts'));
-            else :
+            } else {
                 alert('err', site_url('posts'));
-            endif;
-        endif;
+            }
+        }
     }
 
     /**
@@ -167,42 +167,42 @@ class Posts extends CI_Controller
         $title = $this->input->post('title', true);
 
         //have it title? none -> goto view
-        if (empty($title)) :
+        if (empty($title)) {
             $post = $this->Posts_model->getPostById($TID);
 
-            if ($post->ID !== $this->session->getUserData()) :
+            if ($post->ID !== $this->session->getUserData()) {
                 redirect('posts/create');
-            endif;
+            }
 
             $data['posts_item'] = $post;
             $data['mod'] = 'posts/set';
 
-            if ($data['posts_item']->FileID) :
+            if ($data['posts_item']->FileID) {
                 $file = $this->File_model->getFile($data['posts_item']->FileID);
                 $data['posts_item']->FileID = $file['name_orig'];
-            endif;
+            }
 
             $this->load->view('templates/header');
             $this->load->view('templates/mainMenu', $data);
             $this->load->view('posts/create', $data);
             $this->load->view('templates/footer');
-        else :
+        } else {
             $fileID = null;
             //is uploaded file?
-            if (isset($_FILES['upFile']) && $_FILES['upFile']['name'] != "") :
+            if (isset($_FILES['upFile']) && $_FILES['upFile']['name'] != "") {
                 $file = $_FILES['upFile'];
 
                 $fileID = $this->uploadFile($file);
-            endif;
+            }
 
             $newPost = EPost::newPost($this->session->getUserData(), $title, $this->input->post('text', true), $fileID);
 
-            if ($this->Posts_model->setPost($this->input->post('TID'), $newPost)) :
+            if ($this->Posts_model->setPost($this->input->post('TID'), $newPost)) {
                 alert('The post updated!', site_url('posts'));
-            else :
+            } else {
                 alert('err', site_url('posts'));
-            endif;
-        endif;
+            }
+        }
     }
 
     /**
@@ -214,24 +214,24 @@ class Posts extends CI_Controller
         $TID = $this->input->post('TID', true);
         $post = $this->Posts_model->getPostById($TID);
 
-        if (empty($TID) || ($this->session->userdata('UserData') !== $post->ID)) :
+        if (empty($TID) || ($this->session->userdata('UserData') !== $post->ID)) {
             redirect('posts');
-        endif;
+        }
 
-        if (!empty($post->FileID)) :
+        if (!empty($post->FileID)) {
             $this->clearFile($post->TID);
-        endif;
+        }
 
         $cnt = ($this->Reply_model->getAllReplys($TID))['totalCount'];
-        if ($cnt != 0) :
+        if ($cnt != 0) {
             $this->Reply_model->deleteReplyAll($TID);
-        endif;
+        }
 
-        if ($this->Posts_model->deletePost($TID)) :
+        if ($this->Posts_model->deletePost($TID)) {
             alert('deleted!', site_url('posts'));
-        else :
+        } else {
             alert('error in server!', site_url(array('posts')));
-        endif;
+        }
     }
 
     /**
@@ -262,9 +262,9 @@ class Posts extends CI_Controller
     {
         $FileID = $this->security->xss_clean($FileID);
 
-        if (empty($FileID)) :
+        if (empty($FileID)) {
             redirect('posts');
-        endif;
+        }
 
         $this->load->helper('download');
         $file = $this->File_model->getFile($FileID);
@@ -295,16 +295,16 @@ class Posts extends CI_Controller
             'reg_time' => date('Y-m-d H:i:s')
         );
 
-        if (!$this->upload->do_upload('upFile')) :
+        if (!$this->upload->do_upload('upFile')) {
             $error = $this->upload->display_errors();
             alert($error);
 
             return null;
-        else :
+        } else {
             $this->File_model->createFile($newFile);
 
             $config['file_name'] = '';
             return $file_id;
-        endif;
+        }
     }
 }

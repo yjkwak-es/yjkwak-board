@@ -24,7 +24,7 @@ if (!function_exists('alert')) {
     }
 }
 
-if(!function_exists('close')) {
+if (!function_exists('close')) {
     function close()
     {
         $CI = &get_instance();

@@ -20,15 +20,15 @@ class Reply extends CI_Controller
          * SNAKE_CASE (UPPER)   # variable, member field, Table Column Name
          * kebob-case           # html tag, attribute, url parameter
          */
-        
-        $TID = $this->input->post('TID',true);
-        $Paragraph = $this->input->post('replyText',true);
+
+        $TID = $this->input->post('TID', true);
+        $Paragraph = $this->input->post('replyText', true);
 
         if (empty($Paragraph)) {
             redirect(site_url(array('posts', $TID)));
         }
 
-        $data = EReply::newReply($TID,$this->session->getUserData(),$Paragraph);
+        $data = EReply::newReply($TID, $this->session->getUserData(), $Paragraph);
 
         $this->Reply_model->createReply($data);
         alert('apply it!', site_url(array('posts', $TID)));
@@ -36,7 +36,7 @@ class Reply extends CI_Controller
 
     public function delete()
     {
-        $RID = $this->input->post('RID',true);
+        $RID = $this->input->post('RID', true);
 
         if (empty($RID)) {
             redirect(site_url('posts'));
@@ -48,7 +48,7 @@ class Reply extends CI_Controller
 
     public function set()
     {
-        $RID = $this->input->post('RID',true);
+        $RID = $this->input->post('RID', true);
         $Paragraph = $this->input->post('Paragraph');
 
         if (empty($Paragraph) || empty($RID)) {

@@ -9,19 +9,19 @@ class MY_Session extends CI_Session
 
     public function selectUserData()
     {
-        if ($this->has_userdata('UserName')) :
+        if ($this->has_userdata('UserName')) {
             return $this->userdata('UserName');
-        else :
+        } else {
             return $this->userdata('UserData');
-        endif;
+        }
     }
 
     public function isAdmin()
     {
-        if ($this->userdata('admin') == 1) :
+        if ($this->userdata('admin') == 1) {
             return true;
-        else :
+        } else {
             return false;
-        endif;
+        }
     }
 }

@@ -13,7 +13,7 @@ class Member_model extends CI_Model
     public function getMemberByID(string $id)
     {
         $query = $this->db->get_where('test_db', array('ID' => $id));
-        return $query->row(0,EMember::class);
+        return $query->row(0, EMember::class);
     }
 
     public function setMember(string $id, EMember $data)
@@ -24,12 +24,12 @@ class Member_model extends CI_Model
             'age' => $data->age,
             'gender' => $data->gender
         );
-        
+
         return $this->db->update('test_db', $array);
     }
 
     public function createMember(EMember $data)
     {
-        return $this->db->insert('test_db',$data);
+        return $this->db->insert('test_db', $data);
     }
 }

@@ -10,7 +10,7 @@ class Member extends CI_Controller
         parent::__construct();
         $this->load->model('Member_model');
         $this->load->model('Admin_model');
-        $this->allow = array('login', 'logout','createMember');
+        $this->allow = array('login', 'logout', 'createMember');
     }
 
     public function login()
@@ -20,12 +20,12 @@ class Member extends CI_Controller
         $ID = $this->input->post('ID', true);
         $PW = $this->input->post('PW', true);
 
-        if (empty($ID) || empty($PW)) :
+        if (empty($ID) || empty($PW)) {
             //View 로그인
             $this->load->view('templates/header');
             $this->load->view('member/login');
             $this->load->view('templates/footer');
-        else :
+        } else {
             $member = $this->Member_model->getMemberByID($ID);
 
             if (empty($member) || ($member->PW !== $PW)) {
@@ -36,12 +36,12 @@ class Member extends CI_Controller
             $admin = $this->Admin_model->memberCheck($member->PID);
 
             $this->session->set_userdata('admin', $admin);
-            if (isset($member->name)) :
+            if (isset($member->name)) {
                 $this->session->set_userdata('UserName', $member->name);
-            endif;
+            }
 
             redirect('/posts');
-        endif;
+        }
     }
 
     public function logout()
@@ -62,12 +62,12 @@ class Member extends CI_Controller
             $data = EMember::setInfo($name, $this->input->post('age', true), $this->input->post('gender', true));
             $result = $this->Member_model->setMember($this->session->getUserData(), $data);
 
-            if ($result) :
+            if ($result) {
                 $this->session->set_userdata('UserName', $name);
                 close();
-            else :
+            } else {
                 alert('Err');
-            endif;
+            }
         }
     }
 
@@ -75,13 +75,13 @@ class Member extends CI_Controller
     {
         $newMember = EMember::setID($this->input->post('ID'), $this->input->post('PW'));
 
-        if ($this->Member_model->getMemberByID($newMember->ID)) :
+        if ($this->Member_model->getMemberByID($newMember->ID)) {
             $ret = false;
 
             header('Content-type: application/json');
             echo json_encode($ret);
             exit;
-        endif;
+        }
 
         $ret = $this->Member_model->createMember($newMember);
         header('Content-type: application/json');
@@ -93,9 +93,9 @@ class Member extends CI_Controller
         $data = EMember::setInfo($this->input->post('name', true), $this->input->post('age', true), $this->input->post('gender', true));
         $result = $this->Member_model->setMember($this->session->getUserData(), $data);
 
-        if ($result) :
+        if ($result) {
             $this->session->set_userdata('UserName', $this->input->post('name', true));
-        endif;
+        }
 
         header('Content-type: application/json');
         echo json_encode($result);

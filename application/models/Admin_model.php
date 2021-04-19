@@ -9,8 +9,8 @@ class Admin_model extends CI_Model
         $this->db->select('admin')->where('PID', $PID);
         $query = $this->db->get('test_db');
         $row = $query->row_array(0);
-        
-        
+
+
         return $row['admin'];
     }
 
