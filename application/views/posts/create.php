@@ -57,7 +57,6 @@
     var fileTarget = $('#upFile');
 
     fileTarget.on('change', function() { 
-        console.log('oooooo');
         var cur = $(".custom-file input[type='file']").val();
         $(this).siblings("label[for='upFile']").text(cur);
     });

@@ -214,7 +214,7 @@ class Posts extends CI_Controller
         $TID = $this->input->post('TID', true);
         $post = $this->Posts_model->getPostById($TID);
 
-        if (empty($TID) || ($this->session->userdata('UserData') !== $post->ID)) {
+        if (empty($TID) || (($this->session->userdata('UserData') !== $post->ID) && !($this->session->isAdmin()))) {
             redirect('posts');
         }
 
