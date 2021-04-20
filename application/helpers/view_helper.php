@@ -8,11 +8,11 @@ if (!function_exists('alert_main')) {
         $baseURL = 'base_url';
 
         echo <<< HTML
-                <script type="text/javascript">
-                    alert('{$msg}');
-                    window.location = "{$baseURL()}";
-                </script>
-                HTML;
+<script type="text/javascript">
+    alert('{$msg}');
+    window.location = "{$baseURL()}";
+</script>
+HTML;
     }
 }
 
